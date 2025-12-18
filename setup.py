@@ -13,7 +13,7 @@ def get_requirements(file_path: str) -> List[str]:
             
 
 
-setup(    name='diabetic_retinopathy_detection',
+setup(    name='hallucination_detector_nlp',
     version='0.0.1',
     packages=find_packages(),
     author='Kavya Baxi, Swarit Samiran',
