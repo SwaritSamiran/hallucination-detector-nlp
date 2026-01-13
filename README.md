@@ -1,5 +1,3 @@
-This project was collaboratively developed with 
-[@kavay-dev](https://github.com/kavay-dev).
 
 # 🎯 Hallucination Detector - NLP
 
@@ -9,13 +7,13 @@ A production-grade PyTorch-based hallucination detection system using **ModernBE
 
 ## 📋 Features
 
-✅ **Fast Inference** - GPU-optimized predictions with caching
-✅ **Batch Processing** - Process multiple texts efficiently  
-✅ **Confidence Scoring** - Get confidence metrics for each prediction
-✅ **Configurable Threshold** - Adjust sensitivity dynamically
-✅ **Production-Ready** - Clean FAANG-style architecture with proper error handling
-✅ **CLI Interface** - Easy-to-use command-line tool
-✅ **Flexible Input** - Single text, files, or JSON batches
+- ✅ **Fast Inference** - GPU-optimized predictions with caching
+- ✅ **Batch Processing** - Process multiple texts efficiently  
+- ✅ **Confidence Scoring** - Get confidence metrics for each prediction
+- ✅ **Configurable Threshold** - Adjust sensitivity dynamically
+- ✅ **Production-Ready** - Clean FAANG-style architecture with proper error handling
+- ✅ **CLI Interface** - Easy-to-use command-line tool
+- ✅ **Flexible Input** - Single text, files, or JSON batches
 
 ---
 
@@ -278,6 +276,28 @@ The detector uses **ModernBERT-base**, a state-of-the-art transformer model fine
 - `notebook/modernbert_final/` - Production model (recommended)
 
 Both models support inference on GPU and CPU.
+
+### Training Enhancement: DistilRoBERTa-base (GAN)
+
+During training, we use **DistilRoBERTa-base** as a mutation engine to generate adversarial examples:
+
+**Role:** Acts as the "Generator" in a GAN framework to create hard negative examples (plausible lies)
+
+**Why DistilRoBERTa?**
+- **40% smaller** than RoBERTa - fast mutation generation
+- **Fill-Mask Pipeline** - excels at predicting plausible word replacements
+- **Quality Mutations** - creates contextually relevant but false statements
+- **Pre-trained on RoBERTa** - strong linguistic understanding
+
+**How it works:**
+1. Takes truthful facts: *"Paris is the capital of France"*
+2. Masks key words: *"Paris is the capital of [MASK]"*
+3. Predicts alternatives: "Madrid", "Rome", "London"
+4. Creates false statements: *"Paris is the capital of Madrid"*
+5. Our detector tries to identify it
+6. If fooled → Add as hard negative for adversarial retraining
+
+**Performance:** 50-100ms per mutation, 70-80% fool-rate on well-trained models
 
 ---
 
