@@ -212,3 +212,7 @@ venv/
 *.egg-info/
 __pycache__/
 .ipynb_checkpoints/
+
+notebook/hallucination_model_v1/
+notebook/modernbert_final/
+*.safetensors
