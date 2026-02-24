@@ -1,23 +1,21 @@
 
-# 🎯 Hallucination Detector - NLP
+#  Hallucination Detector - NLP
 
 A production-grade PyTorch-based hallucination detection system using **ModernBERT**. Detects whether text contains factual hallucinations or truthful statements.
 
 ---
 
-## 📋 Features
+## Features
 
-- ✅ **Fast Inference** - GPU-optimized predictions with caching
-- ✅ **Batch Processing** - Process multiple texts efficiently  
-- ✅ **Confidence Scoring** - Get confidence metrics for each prediction
-- ✅ **Configurable Threshold** - Adjust sensitivity dynamically
-- ✅ **Production-Ready** - Clean FAANG-style architecture with proper error handling
-- ✅ **CLI Interface** - Easy-to-use command-line tool
-- ✅ **Flexible Input** - Single text, files, or JSON batches
+-  **Fast Inference** - GPU-optimized predictions with caching
+-  **Batch Processing** - Process multiple texts efficiently  
+-  **Confidence Scoring** - Get confidence metrics for each prediction
+-  **Configurable Threshold** - Adjust sensitivity dynamically
+-  **Production-Ready** - Clean FAANG-style architecture with proper error handling
+-  **CLI Interface** - Easy-to-use command-line tool
+-  **Flexible Input** - Single text, files, or JSON batches
 
 ---
-
-## 🚀 Quick Start
 
 ### Installation
 
@@ -49,8 +47,6 @@ python main.py --text "Some text" --threshold 0.8 --output results.json --summar
 ```
 
 ---
-
-## 📖 Detailed Usage
 
 ### Command Line Options
 
@@ -106,7 +102,7 @@ python main.py --json samples.json --threshold 0.8 --summary
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 src/
@@ -127,7 +123,7 @@ main.py                         # CLI entry point
 
 ---
 
-## 💻 Python API
+## Python API
 
 ### Using the Pipeline Directly
 
@@ -197,7 +193,7 @@ print(result)
 
 ---
 
-## 📊 Output Format
+##  Output Format
 
 ### Single Prediction
 ```json
@@ -247,7 +243,7 @@ print(result)
 
 ---
 
-## ⚙️ Configuration
+##  Configuration
 
 Edit `src/config/config.py` to modify:
 
@@ -267,7 +263,7 @@ USE_GPU = True
 
 ---
 
-## 📦 Models
+##  Models
 
 The detector uses **ModernBERT-base**, a state-of-the-art transformer model fine-tuned for hallucination detection.
 
@@ -301,7 +297,7 @@ During training, we use **DistilRoBERTa-base** as a mutation engine to generate 
 
 ---
 
-## ⚡ Performance
+##  Performance
 
 | Metric | Value |
 |--------|-------|
@@ -313,7 +309,7 @@ During training, we use **DistilRoBERTa-base** as a mutation engine to generate 
 
 ---
 
-## 🔧 Troubleshooting
+##  Troubleshooting
 
 ### "Model not found" Error
 ```bash
@@ -341,7 +337,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 ---
 
-## 👥 Authors & Collaboration
+##  Authors & Collaboration
 
 This project was collaboratively developed with [@kavay-dev](https://github.com/kavay-dev).
 
@@ -350,7 +346,7 @@ This project was collaboratively developed with [@kavay-dev](https://github.com/
 
 ---
 
-## 📚 References
+## References
 
 - [ModernBERT Paper](https://arxiv.org/abs/2105.05095)
 - [Hugging Face Transformers](https://huggingface.co/transformers/)
@@ -358,5 +354,4 @@ This project was collaboratively developed with [@kavay-dev](https://github.com/
 
 ---
 
-**Happy Detecting! 🚀**
 
