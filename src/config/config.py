@@ -21,7 +21,7 @@ class Config:
     ACTIVE_MODEL = "hf"
     
     # Hugging Face Hub Model ID (Primary - use this for cloud deployment)
-    HF_MODEL_ID = "baguestto/hallucination-model-v1"  # Base model works great
+    HF_MODEL_ID = "baguestto/modernbert-final"  # Testing this model
     
     #  MODEL SETTINGS
     MODEL_NAME = "ModernBERT-Hallucination-Detector"
