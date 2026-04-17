@@ -16,12 +16,11 @@ class Config:
     MODEL_OUTPUT_PATH = NOTEBOOK_DIR / "modernbert_final"
     TEMP_DIR = NOTEBOOK_DIR / "temp"
     
-    # Which model to use: "hf" for Hugging Face Hub
-    # HF models: baguestto/hallucination-model-v1 (base model - GOOD)
-    ACTIVE_MODEL = "hf"
+    # Which model to use: "hf" for Hugging Face Hub, "base" for local
+    ACTIVE_MODEL = "base"
     
     # Hugging Face Hub Model ID (Primary - use this for cloud deployment)
-    HF_MODEL_ID = "baguestto/modernbert-final"  # Testing this model
+    HF_MODEL_ID = None  # Disable HF Hub, use local models which work
     
     #  MODEL SETTINGS
     MODEL_NAME = "ModernBERT-Hallucination-Detector"
