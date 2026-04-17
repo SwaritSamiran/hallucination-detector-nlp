@@ -16,13 +16,12 @@ class Config:
     MODEL_OUTPUT_PATH = NOTEBOOK_DIR / "modernbert_final"
     TEMP_DIR = NOTEBOOK_DIR / "temp"
     
-    # Which model to use: "base" or "fine-tuned"
-    # base: hallucination_model_v1 (gives 89% confidence on obvious truths - GOOD)
-    # fine-tuned: modernbert_final (gives 51.5% confidence - WEAK)
-    ACTIVE_MODEL = "base"  # TESTING BASE MODEL
+    # Which model to use: "hf" for Hugging Face Hub
+    # HF models: baguestto/hallucination-model-v1 (base model - GOOD)
+    ACTIVE_MODEL = "hf"
     
-    # Hugging Face Hub Model IDs (Primary)
-    HF_MODEL_ID = None  # Will use local path instead
+    # Hugging Face Hub Model ID (Primary - use this for cloud deployment)
+    HF_MODEL_ID = "baguestto/hallucination-model-v1"  # Base model works great
     
     #  MODEL SETTINGS
     MODEL_NAME = "ModernBERT-Hallucination-Detector"

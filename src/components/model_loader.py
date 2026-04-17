@@ -53,19 +53,20 @@ class ModelLoader:
                 return cls._model_cache
             
             # Determine model path based on config
-            if config.ACTIVE_MODEL == "base":
+            if config.HF_MODEL_ID:
+                # Use HF Hub model (primary)
+                model_id = config.HF_MODEL_ID
+            elif model_path:
+                model_id = model_path
+            elif config.ACTIVE_MODEL == "base":
                 model_id = str(config.MODEL_INPUT_PATH)
             elif config.ACTIVE_MODEL == "fine-tuned":
                 model_id = str(config.MODEL_OUTPUT_PATH)
-            elif model_path:
-                model_id = model_path
-            elif config.HF_MODEL_ID:
-                model_id = config.HF_MODEL_ID
             else:
-                # Fall back to fine-tuned path
-                model_id = str(config.MODEL_OUTPUT_PATH)
+                # Fallback to HF base model
+                model_id = "baguestto/hallucination-model-v1"
             
-            logging.info(f"Loading model ({config.ACTIVE_MODEL}): {model_id}")
+            logging.info(f"Loading model from: {model_id}")
             
             model = AutoModelForSequenceClassification.from_pretrained(
                 model_id,
@@ -109,19 +110,20 @@ class ModelLoader:
                 return cls._tokenizer_cache
             
             # Determine path based on config
-            if config.ACTIVE_MODEL == "base":
+            if config.HF_MODEL_ID:
+                # Use HF Hub model (primary)
+                model_id = config.HF_MODEL_ID
+            elif tokenizer_path:
+                model_id = tokenizer_path
+            elif config.ACTIVE_MODEL == "base":
                 model_id = str(config.MODEL_INPUT_PATH)
             elif config.ACTIVE_MODEL == "fine-tuned":
                 model_id = str(config.MODEL_OUTPUT_PATH)
-            elif tokenizer_path:
-                model_id = tokenizer_path
-            elif config.HF_MODEL_ID:
-                model_id = config.HF_MODEL_ID
             else:
-                # Fall back to fine-tuned path
-                model_id = str(config.MODEL_OUTPUT_PATH)
+                # Fallback to HF base model
+                model_id = "baguestto/hallucination-model-v1"
             
-            logging.info(f"Loading tokenizer ({config.ACTIVE_MODEL}): {model_id}")
+            logging.info(f"Loading tokenizer from: {model_id}")
             
             tokenizer = AutoTokenizer.from_pretrained(
                 model_id,
