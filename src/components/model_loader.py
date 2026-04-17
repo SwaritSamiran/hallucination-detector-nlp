@@ -35,10 +35,10 @@ class ModelLoader:
     @classmethod
     def load_model(cls, model_path: Optional[str] = None) -> AutoModelForSequenceClassification:
         """
-        Load pretrained model with caching
+        Load pretrained model with caching from Hugging Face Hub
         
         Args:
-            model_path: Path to model (uses config default if None)
+            model_path: HF model ID or path (uses config default if None)
             
         Returns:
             Loaded model
@@ -52,16 +52,15 @@ class ModelLoader:
                 logging.info("Using cached model")
                 return cls._model_cache
             
-            path = model_path or config.MODEL_INPUT_PATH
-            logging.info(f"Loading model from {path}")
-            
-            if not path.exists():
-                raise FileNotFoundError(f"Model not found at {path}")
+            # Use HF Hub model ID
+            model_id = model_path or config.HF_MODEL_ID
+            logging.info(f"Loading model from Hugging Face Hub: {model_id}")
             
             model = AutoModelForSequenceClassification.from_pretrained(
-                str(path),
+                model_id,
                 num_labels=config.NUM_LABELS,
-                torch_dtype=torch.float32
+                torch_dtype=torch.float32,
+                trust_remote_code=True
             )
             
             # Move to device
@@ -81,10 +80,10 @@ class ModelLoader:
     @classmethod
     def load_tokenizer(cls, tokenizer_path: Optional[str] = None) -> AutoTokenizer:
         """
-        Load tokenizer with caching
+        Load tokenizer with caching from Hugging Face Hub
         
         Args:
-            tokenizer_path: Path to tokenizer (uses config default if None)
+            tokenizer_path: HF model ID or path (uses config default if None)
             
         Returns:
             Loaded tokenizer
@@ -98,13 +97,14 @@ class ModelLoader:
                 logging.info("Using cached tokenizer")
                 return cls._tokenizer_cache
             
-            path = tokenizer_path or config.MODEL_INPUT_PATH
-            logging.info(f"Loading tokenizer from {path}")
+            # Use HF Hub model ID
+            model_id = tokenizer_path or config.HF_MODEL_ID
+            logging.info(f"Loading tokenizer from Hugging Face Hub: {model_id}")
             
-            if not path.exists():
-                raise FileNotFoundError(f"Tokenizer not found at {path}")
-            
-            tokenizer = AutoTokenizer.from_pretrained(str(path))
+            tokenizer = AutoTokenizer.from_pretrained(
+                model_id,
+                trust_remote_code=True
+            )
             
             # Cache it
             cls._tokenizer_cache = tokenizer

@@ -11,10 +11,13 @@ class Config:
     PROJECT_ROOT = Path(__file__).parent.parent.parent
     NOTEBOOK_DIR = PROJECT_ROOT / "notebook"
     
-    # Model paths
+    # Model paths (fallback for local)
     MODEL_INPUT_PATH = NOTEBOOK_DIR / "hallucination_model_v1"
     MODEL_OUTPUT_PATH = NOTEBOOK_DIR / "modernbert_final"
     TEMP_DIR = NOTEBOOK_DIR / "temp"
+    
+    # Hugging Face Hub Model IDs (Primary)
+    HF_MODEL_ID = "baguestto/hallucination-model-v1"
     
     #  MODEL SETTINGS
     MODEL_NAME = "ModernBERT-Hallucination-Detector"
@@ -36,9 +39,10 @@ class Config:
     
     @classmethod
     def validate_paths(cls) -> bool:
-        """Validate that required paths exist"""
+        """Validate that required directories exist"""
+        # Only require NOTEBOOK_DIR to exist
+        # Models are loaded from Hugging Face Hub by default
         required_paths = [
-            cls.MODEL_INPUT_PATH,
             cls.NOTEBOOK_DIR,
         ]
         

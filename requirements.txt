@@ -1,6 +1,6 @@
 # Requirements for Hallucination Detector NLP Project
-torch>=2.0.0
-transformers>=4.30.0
+torch>=2.4.0
+transformers>=4.36.0
 pytorch-cuda>=11.8
 safetensors>=0.3.0
 
