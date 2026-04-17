@@ -14,5 +14,5 @@ level = "info"
 [server]
 port = 8501
 headless = true
-runOnSave = true
-maxUploadSize = 200
+runOnSave = truefileWatcherType = "poll"
+folderWatchBlacklist = [".venv", ".git", "__pycache__", "*.egg-info", "notebook"]maxUploadSize = 200

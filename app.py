@@ -9,6 +9,15 @@ from pathlib import Path
 from src.pipeline.predict_pipeline import PredictionPipeline
 import time
 
+
+# ============================================================================
+# CACHED MODEL LOADER - PREVENTS RE-DOWNLOADING
+# ============================================================================
+@st.cache_resource
+def load_pipeline():
+    """Load and cache the prediction pipeline"""
+    return PredictionPipeline(threshold=0.5)
+
 # ============================================================================
 # PAGE CONFIGURATION
 # ============================================================================
@@ -363,19 +372,12 @@ st.markdown("""
 # ============================================================================
 # SESSION STATE & PIPELINE INITIALIZATION
 # ============================================================================
-if "pipeline" not in st.session_state:
-    st.session_state.pipeline = None
-    st.session_state.pipeline_loaded = False
-    st.session_state.error_msg = None
-
-if not st.session_state.pipeline_loaded:
-    try:
-        with st.spinner("Loading Hallucination Detection Model..."):
-            st.session_state.pipeline = PredictionPipeline(threshold=0.5)
-            st.session_state.pipeline_loaded = True
-    except Exception as e:
-        st.session_state.error_msg = str(e)
-        st.session_state.pipeline_loaded = None
+try:
+    pipeline = load_pipeline()
+    error_msg = None
+except Exception as e:
+    pipeline = None
+    error_msg = str(e)
 
 # ============================================================================
 # HEADER
@@ -386,9 +388,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Show error if pipeline failed
-if st.session_state.error_msg:
-    st.error(f"Model Loading Error: {st.session_state.error_msg[:150]}")
-    st.info("Ensure the model files are extracted to: `notebook/hallucination_model_v1/`")
+if error_msg:
+    st.error(f"Model Loading Error: {error_msg[:150]}")
+    st.info("Ensure models are available on Hugging Face: `baguestto/modernbert-final`")
     st.stop()
 
 # ============================================================================
@@ -418,13 +420,13 @@ results = None
 analysis_time = None
 
 if analyze_button and user_text:
-    if not st.session_state.pipeline:
+    if not pipeline:
         st.error("Model failed to load. Please check the model files.")
     else:
         with st.spinner("Analyzing text using advanced ML model..."):
             start_time = time.time()
             try:
-                results = st.session_state.pipeline.predict(user_text)
+                results = pipeline.predict(user_text)
                 if not isinstance(results, list):
                     results = [results]
                 analysis_time = time.time() - start_time

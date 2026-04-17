@@ -17,7 +17,7 @@ class Config:
     TEMP_DIR = NOTEBOOK_DIR / "temp"
     
     # Hugging Face Hub Model IDs (Primary)
-    HF_MODEL_ID = "baguestto/hallucination-model-v1"
+    HF_MODEL_ID = "baguestto/hallucination-model-v1"  # Base model (fine-tuned version undertrained)
     
     #  MODEL SETTINGS
     MODEL_NAME = "ModernBERT-Hallucination-Detector"
