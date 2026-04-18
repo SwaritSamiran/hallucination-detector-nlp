@@ -3,6 +3,7 @@ Input validation module for hallucination detector
 Provides robust validation for text inputs and datasets
 """
 
+import re
 from typing import Union, List, Dict, Any
 from src.exception import CustomException
 import sys
@@ -10,6 +11,41 @@ import sys
 
 class InputValidator:
     """Validates inputs before processing"""
+
+    @staticmethod
+    def normalize_text(text: str) -> str:
+        """
+        Normalize text to make inference more robust to casing and noisy punctuation.
+
+        Args:
+            text: Raw input text
+
+        Returns:
+            Normalized text
+        """
+        # Normalize common unicode punctuation to ASCII
+        text = text.replace("\u2018", "'").replace("\u2019", "'")
+        text = text.replace("\u201c", '"').replace("\u201d", '"')
+        text = text.replace("\u2013", "-").replace("\u2014", "-")
+
+        # Drop punctuation so casing/punctuation variants behave consistently
+        text = re.sub(r"[^\w\s']", " ", text)
+
+        # Normalize whitespace inside text
+        text = re.sub(r"\s+", " ", text)
+
+        # Lowercase for case-insensitive behavior
+        text = text.strip().lower()
+
+        # Remove common function words so phrasing variants map similarly
+        stop_words = {
+            "a", "an", "the", "is", "am", "are", "was", "were", "be", "been", "being",
+            "of", "to", "in", "on", "at", "by", "for", "from", "with", "and", "or", "but"
+        }
+        tokens = [tok for tok in text.split() if tok not in stop_words]
+
+        # Keep a safe fallback if everything is removed by stop-word filtering
+        return " ".join(tokens) if tokens else text
     
     @staticmethod
     def validate_text(text: str, min_length: int = 1, max_length: int = 5000) -> str:
@@ -34,7 +70,7 @@ class InputValidator:
             if not isinstance(text, str):
                 raise TypeError(f"Expected str, got {type(text).__name__}")
             
-            text = text.strip()
+            text = InputValidator.normalize_text(text)
             
             if len(text) < min_length:
                 raise ValueError(f"Text too short (min {min_length} chars, got {len(text)})")
